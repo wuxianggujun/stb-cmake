@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.4)
+cmake_minimum_required(VERSION 3.16  )
 project(stb C)
 
 option(STB_EXPORT "Export stb source tree as package" true)
@@ -82,7 +82,7 @@ if (STB_INSTALL)
 		NAMESPACE stb::
 		FILE "${CMAKE_CURRENT_BINARY_DIR}/stbTargets.cmake"
 	)
-endif()
+endif() 
 
 if (STB_EXPORT)
 	export(PACKAGE stb)
