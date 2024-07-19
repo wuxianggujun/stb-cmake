@@ -12,18 +12,25 @@ set(STB_NAMES "image;image-write;image-resize;perlin")
 list(LENGTH STB_FILES STB_LIBRARY_COUNT)
 math(EXPR STB_LIBRARY_COUNT "${STB_LIBRARY_COUNT} - 1")
 
-
 foreach(NTH_STB_LIBRARY RANGE 0 ${STB_LIBRARY_COUNT})
 	list(GET STB_FILES ${NTH_STB_LIBRARY} STB_FILE)
 	list(GET STB_NAMES ${NTH_STB_LIBRARY} STB_NAME)
 	list(GET STB_DEFINES ${NTH_STB_LIBRARY} STB_DEFINE)
 	
+	message(STATUS "Processing ${STB_FILE} library")
+	message(STATUS "Adding ${STB_NAME} library")
+	
 	configure_file(stb/${STB_FILE} stb/${STB_NAME}.c COPYONLY)
+	configure_file(stb/${STB_FILE} stb/${STB_FILE} COPYONLY)
+	
 	add_library(${STB_NAME} ${CMAKE_CURRENT_BINARY_DIR}/stb/${STB_NAME}.c)
 	add_library(stb::${STB_NAME} ALIAS ${STB_NAME})
 	set_target_properties(${STB_NAME} PROPERTIES OUTPUT_NAME stb-${STB_NAME})
 	target_compile_definitions(${STB_NAME} PRIVATE ${STB_DEFINE})
 	install(TARGETS ${STB_NAME} EXPORT stbTargets ARCHIVE DESTINATION lib)
+	
+	message(STATUS "Adding ${CMAKE_CURRENT_SOURCE_DIR}> include directory")
+	
 	target_include_directories(${STB_NAME} INTERFACE
 		$<INSTALL_INTERFACE:${STB_INSTALL_INCLUDE_DIR}>
 		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
