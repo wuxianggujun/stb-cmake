@@ -17,9 +17,6 @@ foreach(NTH_STB_LIBRARY RANGE 0 ${STB_LIBRARY_COUNT})
 	list(GET STB_NAMES ${NTH_STB_LIBRARY} STB_NAME)
 	list(GET STB_DEFINES ${NTH_STB_LIBRARY} STB_DEFINE)
 	
-	message(STATUS "Processing ${STB_FILE} library")
-	message(STATUS "Adding ${STB_NAME} library")
-	
 	configure_file(stb/${STB_FILE} stb/${STB_NAME}.c COPYONLY)
 	configure_file(stb/${STB_FILE} stb/${STB_FILE} COPYONLY)
 	
